@@ -25,9 +25,9 @@ int main(int arg, char* argv){
 	struct timeval start_t, end_t;
 
 	long utime;    /* elapsed time in microseconds */
-  long mtime;    /* elapsed time in milliseconds */
-  long diff_seconds;  /* diff between seconds counter */
-  long diff_useconds; /* diff between microseconds counter */
+	long mtime;    /* elapsed time in milliseconds */
+	long diff_seconds;  /* diff between seconds counter */
+	long diff_useconds; /* diff between microseconds counter */
 
 	float *a,*b,*c;
 
@@ -61,9 +61,9 @@ int main(int arg, char* argv){
 
 
 	diff_seconds  = end_t.tv_sec  - start_t.tv_sec;
-  diff_useconds = end_t.tv_usec - start_t.tv_usec;
+	diff_useconds = end_t.tv_usec - start_t.tv_usec;
 	utime = (diff_seconds) * 1000000 + diff_useconds;
-  mtime = ((diff_seconds) * 1000 + diff_useconds/1000.0) + 0.5;
+	mtime = ((diff_seconds) * 1000 + diff_useconds/1000.0) + 0.5;
 
 	printf("vector additon complete, operation time : %ld sec %ld msec %ld usec\n", 
 		diff_seconds, mtime, utime);
