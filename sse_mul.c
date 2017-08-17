@@ -144,8 +144,8 @@ int main(int arg, char** argv){
 	matrix_t b = make_matrix(MAT_W, MAT_H);
 	matrix_t c = make_matrix(MAT_W, MAT_H);
 
-	rand_matrix(&a, 1);
-	rand_matrix(&b, 1);
+	rand_matrix(&a, 0);
+	rand_matrix(&b, 0);
 
 	gettimeofday(&start_t, NULL);
 	multiply_matrix(&a, &b, &c);
