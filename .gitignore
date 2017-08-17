@@ -1,3 +1,6 @@
 avx_mul
 avx_mul_th
 cpu_mul
+cpu_add
+sse_add
+sse_mul

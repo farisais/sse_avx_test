@@ -1,4 +1,4 @@
-#include <immintrin.h>
+#include <xmmintrin.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -32,7 +32,7 @@ void print_sample_vector(char* name, float* vec){
 	}
 }
 
-int main(int arg, char* argv){
+int main(int arg, char** argv){
 	struct timeval start_t, end_t;
 
 	long utime;    /* elapsed time in microseconds */
@@ -54,24 +54,27 @@ int main(int arg, char* argv){
 
 	gettimeofday(&start_t, NULL);
 
-	for(int i=0;i<VECTOR_SIZE / 8;i++){
-		__m256 _vec_a = _mm256_loadu_ps(a + i * 8);
-		__m256 _vec_b = _mm256_loadu_ps(b + i * 8);
-		__m256 _vec_c = _mm256_mul_ps(_vec_a, _vec_b);
-		memcpy(c + (i*8), &_vec_c, 8 * sizeof(float));
+	int packed = 4;
+
+	for(int i=0;i<VECTOR_SIZE / packed;i++){
+		__m128 _vec_a = _mm_loadu_ps(a + i * packed);
+		__m128 _vec_b = _mm_loadu_ps(b + i * packed);
+		__m128 _vec_c = _mm_add_ps(_vec_a, _vec_b);
+		memcpy(c + (i*packed), &_vec_c, packed * sizeof(float));
 	}
 
-	int tail = VECTOR_SIZE % 8;
+	int tail = VECTOR_SIZE % packed;
 	if(tail != 0){
-		float tail_a[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-		float tail_b[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		float tail_a[4] = {0.0, 0.0, 0.0, 0.0};
+		float tail_b[4] = {0.0, 0.0, 0.0, 0.0};
 		memcpy(&tail_a, a + (VECTOR_SIZE - tail), tail);
 		memcpy(&tail_b, b + (VECTOR_SIZE - tail), tail);
-		__m256 _vec_t_a = _mm256_loadu_ps(tail_a);
-		__m256 _vec_t_b = _mm256_loadu_ps(tail_b);
-		__m256 _vec_c = _mm256_mul_ps(_vec_t_a, _vec_t_b);
+		__m128 _vec_t_a = _mm_loadu_ps(tail_a);
+		__m128 _vec_t_b = _mm_loadu_ps(tail_b);
+		__m128 _vec_c = _mm_mul_ps(_vec_t_a, _vec_t_b);
 		memcpy(c + VECTOR_SIZE - tail, &_vec_c, tail * sizeof(float));
 	}
+
 	gettimeofday(&end_t, NULL);
 
 	print_sample_vector("a", a);

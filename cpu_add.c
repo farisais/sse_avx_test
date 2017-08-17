@@ -24,10 +24,10 @@ void multiply_vector(float* z, float* x , float* y, int size){
 int main(int arg, char* argv){
 	struct timeval start_t, end_t;
 
-	long utime;    /* elapsed time in microseconds */
-	long mtime;    /* elapsed time in milliseconds */
-	long diff_seconds;  /* diff between seconds counter */
-	long diff_useconds; /* diff between microseconds counter */
+	long utime;
+	long mtime;
+	long diff_seconds;
+	long diff_useconds;
 
 	float *a,*b,*c;
 
@@ -57,8 +57,6 @@ int main(int arg, char* argv){
 			printf("%f ", c[i]);
 		}
 	}
-
-
 
 	diff_seconds  = end_t.tv_sec  - start_t.tv_sec;
 	diff_useconds = end_t.tv_usec - start_t.tv_usec;
